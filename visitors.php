@@ -69,10 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             if ($action === 'add' && canRegisterVisitor()) {
+                if($name=='' || $mobile==''){
+                $msg = "<div class='alert alert-danger'>Error: Empty fields</div>";
+                }else{
                 $stmt = $pdo->prepare("INSERT INTO visitors (name, mobile, image_path) VALUES (?, ?, ?)");
                 $stmt->execute([$name, $mobile, $image_path]);
                 $msg = "<div class='alert alert-success'>Visitor Registered Successfully!</div>";
                 $name = $mobile = ''; 
+                }
             } elseif ($action === 'edit' && canEditOrDelete()) {
                 $id = $_POST['id'];
                 $stmt = $pdo->prepare("UPDATE visitors SET name = ?, mobile = ?, image_path = ? WHERE id = ?");
