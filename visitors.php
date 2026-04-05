@@ -69,14 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             if ($action === 'add' && canRegisterVisitor()) {
-                if($name=='' || $mobile==''){
-                $msg = "<div class='alert alert-danger'>Error: Empty fields</div>";
-                }else{
                 $stmt = $pdo->prepare("INSERT INTO visitors (name, mobile, image_path) VALUES (?, ?, ?)");
                 $stmt->execute([$name, $mobile, $image_path]);
                 $msg = "<div class='alert alert-success'>Visitor Registered Successfully!</div>";
                 $name = $mobile = ''; 
-                }
             } elseif ($action === 'edit' && canEditOrDelete()) {
                 $id = $_POST['id'];
                 $stmt = $pdo->prepare("UPDATE visitors SET name = ?, mobile = ?, image_path = ? WHERE id = ?");
@@ -199,7 +195,7 @@ if (isset($_GET['msg'])) {
                     </td>
                     <td><?= htmlspecialchars($v['name']) ?></td>
                     <td><?= htmlspecialchars($v['mobile']) ?></td>
-                    <td><?= date('d-m-Y', strtotime($v['created_at'])) ?></td>
+                    <td><?= date('Y-m-d', strtotime($v['created_at'])) ?></td>
                     <td>
                         <a href="add_visit.php?search_mobile=<?= urlencode($v['mobile']) ?>" class="btn btn-sm btn-success">Add Visit</a>
                         
