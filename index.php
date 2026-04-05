@@ -43,7 +43,7 @@
                     <td><?=htmlspecialchars($v['purpose'])?></td>
                     <td><?=htmlspecialchars($v['visited_to'])?></td>
                     <td><?=date('d-m-Y H:i', strtotime($v['in_time']))?></td>
-                    <td><?=date('d-m-Y H:i', strtotime($v['out_time']))?></td>
+                    <td><?=$v['out_time'] ? date('d-m-Y H:i', strtotime($v['out_time'])): '<span class="badge bg-warning">Inside</span>'?></td>
                     <td><a href="?mark_out=<?= $v['id']?>" class="btn btn-sm btn-danger">Mark out</a></td>
                 </tr>
             <?php }?>
