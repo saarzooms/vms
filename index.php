@@ -1,3 +1,8 @@
+<?php
+    require_once 'config.php';
+    $query = "select visits.*, visitors.name, visitors.mobile from visits join visitors on visits.visitor_id = visitors.id";
+    $visits = $pdo->query($query)->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +35,19 @@
                 <th>Action</th> 
             </tr>
         </thead>
+        <tbody>
+            <?php foreach ($visits as $v) { ?>
+                <tr>
+                    <td><?=htmlspecialchars($v['name'])?></td>
+                    <td><?=htmlspecialchars($v['mobile'])?></td>
+                    <td><?=htmlspecialchars($v['purpose'])?></td>
+                    <td><?=htmlspecialchars($v['visited_to'])?></td>
+                    <td><?=date('d-m-Y H:i', strtotime($v['in_time']))?></td>
+                    <td><?=date('d-m-Y H:i', strtotime($v['out_time']))?></td>
+                    <td><a href="?mark_out=<?= $v['id']?>" class="btn btn-sm btn-danger">Mark out</a></td>
+                </tr>
+            <?php }?>
+        </tbody>
     </table>
 </body>
 </html>
