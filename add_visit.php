@@ -1,5 +1,6 @@
 <?php
-    require_once 'config.php';
+    require_once 'auth.php';
+    requirePermission(canRegisterVisitor());
     $visitor = null;
     if(isset($_GET['search_mobile'])){
         $stmt = $pdo->prepare('select * from visitors where mobile = ?');
@@ -45,6 +46,8 @@
                 <button type="submit" class="btn btn-success">Check-In</button>
             </form>
         </div>
+        <?php elseif(isset($_GET['search_mobile'])): ?>
+        <div class="alert alert-warning">Visitor not found! <a href="visitors.php">Register them first.</a></div>
     <?php endif;?>
 </body>
 </html>
